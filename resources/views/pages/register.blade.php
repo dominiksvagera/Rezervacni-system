@@ -9,13 +9,13 @@
 <body class="bg-gray-100 font-serif">
     <section class="relative w-full px-8 text-white bg-gray-300 body-font" data-tails-scripts="//unpkg.com/alpinejs" {!! $attributes ?? '' !!}>
         <div class="container flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
-            <a href="/index.html" class="relative z-10 flex items-center w-auto text-2xl font-extrabold leading-none text-black select-none">BULL SPORT RAJHRAD</a>
+            <a href="index" class="relative z-10 flex items-center w-auto text-2xl font-extrabold leading-none text-black select-none">BULL SPORT RAJHRAD</a>
             <div x-data="{ open: false }" class="lg:hidden">
                 <button @click="open = ! open">Menu</button>
              
                 <div x-show="open">
                     <nav class="top-0 left-0 z-0 flex flex-col items-center justify-center w-full h-full py-5 -ml-0 space-x-5 text-base md:-ml-5 md:py-0 md:absolute">
-                        <a href="/index.html" class="relative font-medium leading-6 text-gray-600 transition duration-150 ease-out hover:text-gray-900" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
+                        <a href="index" class="relative font-medium leading-6 text-gray-600 transition duration-150 ease-out hover:text-gray-900" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                             <span class="block">Domů</span>
                             <span class="absolute bottom-0 left-0 inline-block w-full h-0.5 -mb-1 overflow-hidden">
                                 <span x-show="hover" class="absolute inset-0 inline-block w-full h-1 h-full transform bg-gray-900" x-transition:enter="transition ease duration-200" x-transition:enter-start="scale-0" x-transition:enter-end="scale-100" x-transition:leave="transition ease-out duration-300" x-transition:leave-start="scale-100" x-transition:leave-end="scale-0"></span>
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <nav class="top-0 left-0 z-0 flex items-center justify-center w-full h-full py-5 -ml-0 space-x-5 text-base md:-ml-5 md:py-0 md:absolute invisible lg:visible">
-                <a href="/index.html" class="relative font-medium leading-6 text-gray-600 transition duration-150 ease-out hover:text-gray-900" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
+                <a href="index" class="relative font-medium leading-6 text-gray-600 transition duration-150 ease-out hover:text-gray-900" x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false">
                     <span class="block">Domů</span>
                     <span class="absolute bottom-0 left-0 inline-block w-full h-0.5 -mb-1 overflow-hidden">
                         <span x-show="hover" class="absolute inset-0 inline-block w-full h-1 h-full transform bg-gray-900" x-transition:enter="transition ease duration-200" x-transition:enter-start="scale-0" x-transition:enter-end="scale-100" x-transition:leave="transition ease-out duration-300" x-transition:leave-start="scale-100" x-transition:leave-end="scale-0"></span>
@@ -70,7 +70,7 @@
             </nav>
     
             <div class="relative z-10 inline-flex items-center space-x-3 md:ml-5 lg:justify-end">
-                <a href="/prihlaseni.html" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-gray-600 whitespace-no-wrap bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:shadow-none" data-rounded="rounded-md">
+                <a href="login" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-gray-600 whitespace-no-wrap bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:shadow-none" data-rounded="rounded-md">
                     Přihlásit se
                 </a>
                 <span class="inline-flex rounded-md shadow-sm">
@@ -90,33 +90,34 @@
                 <div class="w-full space-y-5 md:w-3/5 md:pr-16">
                     <p class="font-medium text-blue-500 uppercase" data-primary="blue-500">Začněte dnes</p>
                     <h2 class="text-2xl font-extrabold leading-none text-black sm:text-3xl md:text-5xl">
-                        Přihlašte se do svého účtu a udělejte si rezervaci na lekci.
+                        Registrujte se nyní a zarezervujte si svou první lekci!
                     </h2>
                     
                 </div>
-
-    <form action="/login" method="POST" class="w-full mt-16 md:mt-0 md:w-2/5">
-    @csrf
-               
+    
+                <div class="w-full mt-16 md:mt-0 md:w-2/5">
                     <div class="relative z-10 h-auto p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7" data-rounded="rounded-lg" data-rounded-max="rounded-full">
-                        <h3 class="mb-6 text-2xl font-medium text-center">Přihlásit se do svého účtu</h3>
+                        <h3 class="mb-6 text-2xl font-medium text-center">Registrace nového účtu</h3>
                         <input type="text" name="email" id="email" class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" data-rounded="rounded-lg" data-primary="blue-500" placeholder="Emailová adresa">
                         <input type="password" name="password" id="password" class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" data-rounded="rounded-lg" data-primary="blue-500" placeholder="Heslo">
+                        
+                        <input type="password" name="password" id="password" class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none" data-rounded="rounded-lg" data-primary="blue-500" placeholder="Potvrzení hesla">
+                        
+
                         <div class="block">
-                            <button class="w-full px-3 py-4 font-medium text-white bg-indigo-600 rounded-lg" type="submit" data-primary="blue-600" data-rounded="rounded-lg">Přihlásit se</button>
+                            <button class="w-full px-3 py-4 font-medium text-white bg-indigo-600 rounded-lg" data-primary="blue-600" data-rounded="rounded-lg">Registrovat se</button>
                         </div>
-                        <p class="w-full mt-4 text-sm text-center text-gray-500">Ještě nemáte účet? <a href="register" class="text-blue-500 underline">Registrujte se zde.</a></p>
+                        <p class="w-full mt-4 text-sm text-center text-gray-500">Máte již účet? <a href="login" class="text-blue-500 underline">Přihlaste se zde.</a></p>
                     </div>
-               
-                </form>
+                </div>
+    
             </div>
         </div>
     </section>
 
-
     <section class="text-gray-700 bg-gray-100 body-font" {!! $attributes ?? '' !!}>
         <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
-            <a href="/index.html" class="text-xl font-black leading-none text-gray-900 select-none logo">BULL SPORT RAJHRAD<span class="text-indigo-600"></span></a>
+            <a href="#_" class="text-xl font-black leading-none text-gray-900 select-none logo">BULL SPORT RAJHRAD<span class="text-indigo-600"></span></a>
             <p class="mt-4 text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l sm:border-gray-200 sm:mt-0">&copy; 2024 Dominik Švagera
             </p>
             <span class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start">
@@ -157,7 +158,7 @@
             </span>
         </div>
     </section>
-
 </body>
+
 
 </html>
