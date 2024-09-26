@@ -1,11 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AuthController;
 
-Route::get('/', [HomeController::class, 'index']);
-{
-    return view('welcome');
-};
+Route::view('/', 'index');
 
-Route::get('/test', [HomeController::class, 'index']); 
+
+Route::get('/login', [AuthController::class, 'show']);
