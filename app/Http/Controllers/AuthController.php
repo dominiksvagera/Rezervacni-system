@@ -47,5 +47,25 @@ public function store(Request $request)
 return to_route('index');
 
 }
-}
 
+
+public function onas()
+    {
+        return view('pages.onas');
+    }
+
+    public function kontakt()
+    {
+        return view('pages.kontakt');
+    }
+
+    public function nascvicak()
+    {
+        return view('pages.nascvicak');
+    }
+
+    public function rezervace()
+    {
+        return view('pages.rezervace');
+    }
+}

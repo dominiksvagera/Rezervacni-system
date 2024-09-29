@@ -6,7 +6,6 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   @vite('resources/css/app.css')
 </head>
-
 <body class="bg-gray-100 font-serif">
 <section class="relative w-full px-8 text-white bg-gray-300 body-font" data-tails-scripts="//unpkg.com/alpinejs" {!! $attributes ?? '' !!}>
         <div class="container flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
@@ -83,54 +82,167 @@
         </div>
     </section>
 
+    <!-- Tady bude celý rezervační systém - budu si dělat postupně poznámky abych věděl, co je co. -->
 
-    <section class="w-full px-8 py-16 bg-gray-100 xl:px-8">
-        <div class="max-w-5xl mx-auto">
-            <div class="flex flex-col items-center md:flex-row">
+      <div class="max-w-4xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-lg" x-data="reservationCalendar()">
+        <h1 class="text-2xl font-bold text-center mb-6">Rezervační systém</h1>
     
-                <div class="w-full space-y-5 md:w-3/5 md:pr-16">
-                    <p class="font-medium text-blue-500 uppercase" data-primary="blue-500">Začněte dnes</p>
-                    <h2 class="text-2xl font-extrabold leading-none text-black sm:text-3xl md:text-5xl">
-                        Registrujte se nyní a zarezervujte si svou první lekci!
-                    </h2>
-                    
-                </div>
-    <form action="/register" method="POST" class="w-full mt-16 md:mt-0 md:w-2/5" >
-                @csrf
-                    <div class="relative z-10 h-auto p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7" data-rounded="rounded-lg" data-rounded-max="rounded-full">
-                        <h3 class="mb-6 text-2xl font-medium text-center">Registrace nového účtu</h3>
-                        <input type="text" name="name" id="name" class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none"  data-rounded="rounded-lg" data-primary="blue-500" placeholder="Jméno">
-                        @error('name')
-    <div class="alert alert-danger text-sm text-red-400">{{ $message }}</div>
-@enderror
-                        <input type="text" name="email" id="email" class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none"  data-rounded="rounded-lg" data-primary="blue-500" placeholder="Emailová adresa">
-                        @error('email')
-    <div class="alert alert-danger text-sm text-red-400">{{ $message }}</div>
-@enderror
-                        <input type="password" name="password" id="password" class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none"  data-rounded="rounded-lg" data-primary="blue-500" placeholder="Heslo">
-                        @error('password')
-    <div class="alert alert-danger text-sm text-red-400">{{ $message }}</div>
-@enderror
-                        <input type="password" name="password" id="password" class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none"  data-rounded="rounded-lg" data-primary="blue-500" placeholder="Potvrzení hesla">
-                        @error('password')
-    <div class="alert alert-danger text-sm text-red-400">{{ $message }}</div>
-@enderror
-
-                        <div class="block">
-                            <button class="w-full px-3 py-4 font-medium text-white bg-indigo-600 rounded-lg" type="submit" data-primary="blue-600" data-rounded="rounded-lg">Registrovat se</button>
-   
-                        </div>
-                        <p class="w-full mt-4 text-sm text-center text-gray-500">Máte již účet? <a href="login" class="text-blue-500 underline">Přihlaste se zde.</a></p>
-                    </div>
-                
-                </form>
-
-   
-            </div>
+        <!-- Ovládací prvky pro posun mezi měsíci -->
+        <div class="flex justify-between items-center mb-6">
+          <button @click="prevMonth" class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">
+            Předchozí měsíc
+          </button>
+          <h2 class="text-xl font-semibold" x-text="currentMonthName + ' ' + currentYear"></h2>
+          <button @click="nextMonth" class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">
+            Další měsíc
+          </button>
         </div>
-     
-    </section>
+    
+        <!-- Kalendářní mřížka -->
+        <div class="grid grid-cols-7 gap-4">
+          <template x-for="day in daysOfMonth" :key="day.date">
+            <div class="border p-4 rounded-lg">
+              <p class="font-bold" x-text="day.date"></p>
+              <p class="text-sm" x-text="'Rezervace: ' + day.reservations.length + '/3'"></p>
+    
+              <!-- Formulář pro přidání rezervace, pokud není kapacita vyčerpána -->
+              <template x-if="day.reservations.length < 3 && !day.reservationAdded">
+                <form @submit.prevent="addReservation(day)">
+                  <div class="mt-2">
+                    <input type="text" placeholder="Jméno" x-model="day.tempName" class="w-full p-2 border rounded-md" required>
+                  </div>
+                  <div class="mt-2">
+                    <input type="email" placeholder="Email" x-model="day.tempEmail" class="w-full p-2 border rounded-md" required>
+                  </div>
+                  <button type="submit" class="mt-2 w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 text-center">
+                    Rezervace
+                  </button>
+                </form>
+              </template>
+    
+              <!-- Tlačítko na zrušení rezervace, pokud už rezervace existuje -->
+              <template x-if="day.reservationAdded">
+                <button @click="removeReservation(day)" class="mt-2 w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 text-center">
+                  Zrušit
+                </button>
+              </template>
+    
+              <!-- Zobrazení informací o plné kapacitě nebo potvrzení rezervace -->
+              <template x-if="day.reservations.length >= 3 || day.reservationAdded">
+                <p class="text-green-500 font-semibold mt-2" x-show="day.reservationAdded">Rezervace úspěšně přidána!</p>
+                <p class="text-red-500 font-semibold mt-2" x-show="day.reservations.length >= 3 && !day.reservationAdded">Plná kapacita!</p>
+              </template>
+    
+              <!-- Seznam rezervací pro konkrétní den -->
+              <ul class="mt-2">
+                <template x-for="reservation in day.reservations" :key="reservation.email">
+                  <li class="text-sm">
+                    <span x-text="reservation.name"></span> - <span x-text="reservation.email"></span>
+                  </li>
+                </template>
+              </ul>
+            </div>
+          </template>
+        </div>
+      </div>
+    
+      <script>
+        function reservationCalendar() {
+          return {
+            currentMonth: new Date().getMonth(),  // Index měsíce (0-11)
+            currentYear: new Date().getFullYear(), // Aktuální rok
+            reservationsData: {}, // Uložení rezervací pro všechny dny a měsíce
+            daysOfMonth: [],
+    
+            // Inicializace kalendáře
+            init() {
+              this.updateDaysOfMonth();
+            },
+    
+            // Přepočítání dní v měsíci
+            updateDaysOfMonth() {
+              const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+              const monthString = this.currentYear + '-' + (this.currentMonth + 1).toString().padStart(2, '0');
+    
+              // Generování dní pro konkrétní měsíc
+              this.daysOfMonth = [];
+              for (let day = 1; day <= daysInMonth; day++) {
+                const date = `${monthString}-${day.toString().padStart(2, '0')}`;
+                if (!this.reservationsData[date]) {
+                  this.reservationsData[date] = [];
+                }
+                this.daysOfMonth.push({
+                  date: date,
+                  reservations: this.reservationsData[date],
+                  tempName: '',  // Dočasné pole pro jméno
+                  tempEmail: '', // Dočasné pole pro email
+                  reservationAdded: false // Zda byla přidána rezervace
+                });
+              }
+            },
+    
+            // Přidání rezervace
+            addReservation(day) {
+              if (day.tempName && day.tempEmail && day.reservations.length < 3) {
+                day.reservations.push({
+                  name: day.tempName,
+                  email: day.tempEmail
+                });
+    
+                // Uložit do globálních dat
+                this.reservationsData[day.date] = day.reservations;
+    
+                // Nastavit indikaci úspěšného přidání rezervace
+                day.reservationAdded = true;
+    
+                // Vymazat pole po odeslání
+                day.tempName = '';
+                day.tempEmail = '';
+              }
+            },
+    
+            // Odstranění rezervace
+            removeReservation(day) {
+              day.reservations = [];
+              this.reservationsData[day.date] = day.reservations;
+              day.reservationAdded = false;
+            },
+    
+            // Přesun na předchozí měsíc
+            prevMonth() {
+              if (this.currentMonth === 0) {
+                this.currentMonth = 11;
+                this.currentYear--;
+              } else {
+                this.currentMonth--;
+              }
+              this.updateDaysOfMonth();
+            },
+    
+            // Přesun na další měsíc
+            nextMonth() {
+              if (this.currentMonth === 11) {
+                this.currentMonth = 0;
+                this.currentYear++;
+              } else {
+                this.currentMonth++;
+              }
+              this.updateDaysOfMonth();
+            },
+    
+            // Název aktuálního měsíce
+            get currentMonthName() {
+              const months = [
+                "Leden", "Únor", "Březen", "Duben", "Květen", "Červen",
+                "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"
+              ];
+              return months[this.currentMonth];
+            }
+          };
+        }
+      </script>
 
+    
     <section class="text-gray-700 bg-gray-100 body-font" {!! $attributes ?? '' !!}>
         <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
             <a href="#_" class="text-xl font-black leading-none text-gray-900 select-none logo">BULL SPORT RAJHRAD<span class="text-indigo-600"></span></a>
