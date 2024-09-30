@@ -96,32 +96,32 @@
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center w-screen h-full gap-4 font-serif">
 
             <article class="flex flex-col items-center justify-center text-center border rounded-3xl w-full h-full bg-white">
-                <img class="w-58" src="/high.jpg" alt="">
+                <img class="w-58" src="{{asset('images/high.jpg')}}" alt="">
                 <p class="p-2">High Jump</p>
             </article>
     
             <article class="flex flex-col items-center justify-center text-center border rounded-3xl w-full h-full bg-white">
-                <img class="w-64" src="/a.jpg" alt="">
+                <img class="w-64" src="{{asset('images/a.jpg')}}" alt="">
                 <p class="p-2">A-Frame</p>
             </article>
     
                 <article class="flex flex-col items-center justify-center text-center border rounded-3xl w-full h-full bg-white">
-                    <img class="w-52"  src="/wall.jpg" alt="">
+                    <img class="w-52"  src="{{asset('images/wall.jpg')}}" alt="">
                     <p class="p-2">Wall Climbing</p>
                 </article>
     
                 <article class="flex flex-col items-center justify-center text-center border rounded-3xl w-full h-full bg-white">
-                    <img class="w-96"  src="/treadmill.jpg" alt="">
+                    <img class="w-96"  src="{{asset('images/treadmill.jpg')}}" alt="">
                     <p class="p-2">Treadmill</p>
                 </article>
     
                 <article class="flex flex-col items-center justify-center text-center border rounded-3xl w-full h-full bg-white">
-                    <img class="w-96"  src="/tow.jpg" alt="">
+                    <img class="w-96"  src="{{asset('images/tow.jpg')}}" alt="">
                     <p class="p-2">Tag Of War (TOW)</p>
                 </article>
     
                 <article class="flex flex-col items-center justify-center text-center border rounded-3xl w-full h-full bg-white">
-                    <img class="w-96"  src="/classic.jpg" alt="">
+                    <img class="w-96"  src="{{asset('images/classic.jpg')}}" alt="">
                     <p class="p-2">Classic Jump</p>
                 </article>
            
@@ -130,7 +130,7 @@
     
             <section class="text-gray-700 bg-gray-100 body-font" {!! $attributes ?? '' !!}>
                 <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
-                    <a href="#_" class="text-xl font-black leading-none text-gray-900 select-none logo">BULL SPORT RAJHRAD<span class="text-indigo-600"></span></a>
+                    <a href="/" class="text-xl font-black leading-none text-gray-900 select-none logo">BULL SPORT RAJHRAD<span class="text-indigo-600"></span></a>
                     <p class="mt-4 text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l sm:border-gray-200 sm:mt-0">&copy; 2024 Dominik Švagera
                     </p>
                     <span class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start">

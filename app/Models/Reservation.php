@@ -15,4 +15,9 @@ class Reservation extends Model
         'reservation',
     ];
 
+    public function show()
+    {
+        return view('reservation'); 
+    }
+
 }

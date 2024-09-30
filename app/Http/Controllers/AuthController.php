@@ -13,8 +13,27 @@ public function show()
 
     public function login(Request $request)
     {
-        dd($request->email, $request->password);
+        return view('pages.dashboard');
     }
+
+    public function authenticate(Request $request): RedirectResponse
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+ 
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+ 
+            return redirect()->intended('dashboard');
+        }
+ 
+        return back()->withErrors([
+            'email' => 'Zadané přihlašovací údaje nejsou správné.',
+        ])->onlyInput('email');
+    }
+
 
 public function register()
 {
@@ -48,24 +67,21 @@ return to_route('index');
 
 }
 
-
-public function onas()
-    {
-        return view('pages.onas');
-    }
-
-    public function kontakt()
-    {
-        return view('pages.kontakt');
-    }
-
-    public function nascvicak()
-    {
-        return view('pages.nascvicak');
-    }
-
     public function rezervace()
     {
         return view('pages.rezervace');
     }
+
+  
+
+    public function logout(Request $request): RedirectResponse
+{
+    Auth::logout();
+ 
+    $request->session()->invalidate();
+ 
+    $request->session()->regenerateToken();
+ 
+    return redirect('/');
+}
 }
