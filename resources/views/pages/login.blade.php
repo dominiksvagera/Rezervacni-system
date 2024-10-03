@@ -109,7 +109,7 @@
     <div class="alert alert-danger text-sm text-red-400">{{ $message }}</div>
 @enderror
                         <div class="block">
-                            <button class="w-full px-3 py-4 font-medium text-white bg-indigo-600 rounded-lg" type="submit" data-primary="blue-600" data-rounded="rounded-lg">Přihlásit se</button>
+                            <button class="w-full px-3 py-4 font-medium text-white bg-indigo-600 rounded-lg" type="submit" action="" data-primary="blue-600" data-rounded="rounded-lg">Přihlásit se</button>
                         </div>
                         <p class="w-full mt-4 text-sm text-center text-gray-500">Ještě nemáte účet? <a href="register" class="text-blue-500 underline">Registrujte se zde.</a></p>
                     </div>

@@ -90,12 +90,20 @@
               <div class="w-full pb-6 space-y-6 sm:max-w-md lg:max-w-lg md:space-y-4 lg:space-y-8 xl:space-y-9 sm:pr-5 lg:pr-0 md:pb-0">
                 <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
                   <span class="block xl:inline">Správa účtu</span> <br>
-                  <span class="block text-indigo-600 xl:inline" data-primary="indigo-600">Právě jsi přihlášen.</span>
+                
+                  <span class="block text-indigo-600 xl:inline" data-primary="indigo-600">Zde je přehled vašich rezervací:</span>
                 </h1>
                 </div>
             </div>
           </div>
         </div>
+
+@foreach ($reservations as $reservation)
+
+
+
+@endforeach
+
       </section>
 
 

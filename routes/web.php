@@ -19,5 +19,8 @@ Route::post('/register', [AuthController::class, 'store']);
 
 Route::get('/rezervace', [AuthController::class, 'rezervace']);
 
-Route::get('/dashboard', [DashboardController::class, 'show']);
+Route::get('/dashboard', [DashboardController::class, 'show'])
+    ->middleware(['auth'])
+    ->name('dashboard');
+
 Route::get('/logout', [AuthController::class, 'show']);

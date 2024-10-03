@@ -117,7 +117,7 @@
 @enderror
 
                         <div class="block">
-                            <button class="w-full px-3 py-4 font-medium text-white bg-indigo-600 rounded-lg" type="submit" data-primary="blue-600" data-rounded="rounded-lg">Registrovat se</button>
+                            <button class="w-full px-3 py-4 font-medium text-white bg-indigo-600 rounded-lg" type="submit" action="" data-primary="blue-600" data-rounded="rounded-lg">Registrovat se</button>
    
                         </div>
                         <p class="w-full mt-4 text-sm text-center text-gray-500">Máte již účet? <a href="login" class="text-blue-500 underline">Přihlaste se zde.</a></p>

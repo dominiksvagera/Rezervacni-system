@@ -55,11 +55,12 @@ public function store(Request $request)
 ]
 );
 
-    dd($validated);
+
 
     User::create([
         'name' => $request->name,
         'email' => $request->email,
+        'password' => $request->password,
         'password' => $request->password,
     ]);
 
