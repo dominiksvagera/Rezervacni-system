@@ -24,3 +24,13 @@ Route::get('/dashboard', [DashboardController::class, 'show'])
     ->name('dashboard');
 
 Route::get('/logout', [AuthController::class, 'show']);
+
+Route::post('/dashboard', [DashboardController::class, 'store'])
+    ->middleware(['auth'])
+    ->name('store.reservation');
+
+
+Route::delete('/reservation_delete', [DashboardController::class, 'destroy'])
+->middleware(['auth'])
+->name('destroy.reservation');
+    

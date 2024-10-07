@@ -15,9 +15,9 @@ class Reservation extends Model
         'reservation',
     ];
 
-    public function show()
+    public function user()
     {
-        return view('reservation'); 
+        return $this->belongsTo(User::class);
     }
 
 }

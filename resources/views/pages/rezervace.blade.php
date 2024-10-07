@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   @vite('resources/css/app.css')
+  @vite('resources/css/app.js')
 </head>
 <body class="bg-gray-100 font-serif">
 <section class="relative w-full px-8 text-white bg-gray-300 body-font" data-tails-scripts="//unpkg.com/alpinejs" {!! $attributes ?? '' !!}>
@@ -107,12 +108,13 @@
 
                 <!-- Formulář pro přidání rezervace, pokud není kapacita vyčerpána -->
                 <template x-if="day.reservations.length < 3 && !day.reservationAdded">
-                    <form @submit.prevent="addReservation(day)">
+                    <form @submit.prevent="addReservation(day)" action="/dashboard" method="POST">
+                        @csrf
                         <div class="mt-2">
-                            <input type="text" placeholder="Jméno" x-model="day.tempName" class="w-full p-2 border rounded-md" required>
+                            <input type="text" placeholder="Jméno" name="jmeno" x-model="day.tempName" class="w-full p-2 border rounded-md" required>
                         </div>
                         <div class="mt-2">
-                            <input type="email" placeholder="Email" x-model="day.tempEmail" class="w-full p-2 border rounded-md" required>
+                            <input type="email" placeholder="Email" name="email" x-model="day.tempEmail" class="w-full p-2 border rounded-md" required>
                         </div>
                         <button type="submit" class="mt-2 w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 text-center">
                             Rezervace

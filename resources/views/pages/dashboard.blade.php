@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   @vite('resources/css/app.css')
+  @vite('resources/css/app.js')
 </head>
 <body class="bg-gray-100 font-serif">
 <section class="relative w-full px-8 text-white bg-gray-300 body-font" data-tails-scripts="//unpkg.com/alpinejs" {!! $attributes ?? '' !!}>
@@ -89,7 +90,6 @@
             <div class="w-full md:w-1/2 md:px-3">
               <div class="w-full pb-6 space-y-6 sm:max-w-md lg:max-w-lg md:space-y-4 lg:space-y-8 xl:space-y-9 sm:pr-5 lg:pr-0 md:pb-0">
                 <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
-                  <span class="block xl:inline">Správa účtu</span> <br>
                 
                   <span class="block text-indigo-600 xl:inline" data-primary="indigo-600">Zde je přehled vašich rezervací:</span>
                 </h1>
@@ -98,11 +98,7 @@
           </div>
         </div>
 
-@foreach ($reservations as $reservation)
 
-
-
-@endforeach
 
       </section>
 

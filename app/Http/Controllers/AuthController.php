@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
-use App\Models\rezervace;
+use App\Models\User;
+use App\Models\Reservation;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
+
 {
 public function show()
     {
@@ -61,10 +64,9 @@ public function store(Request $request)
         'name' => $request->name,
         'email' => $request->email,
         'password' => $request->password,
-        'password' => $request->password,
     ]);
 
-return to_route('index');
+return redirect('/');
 
 }
 
