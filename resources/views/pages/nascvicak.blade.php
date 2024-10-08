@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   @vite('resources/css/app.css')
-  @vite('resources/css/app.js')
+  @vite('resources/js/app.js')
 </head>
 <body class="bg-gray-100 font-serif">
 <section class="relative w-full px-8 text-white bg-gray-300 body-font" data-tails-scripts="//unpkg.com/alpinejs" {!! $attributes ?? '' !!}>

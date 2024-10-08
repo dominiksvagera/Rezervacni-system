@@ -3,20 +3,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use Illuminate\Http\Request;
-use Illuminates\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function show()
     {
        
-        $reservations = $reservation::where("user_id", Auth::id())->get();
+        $reservations = Reservation::where("user_id", Auth::id())->get();
     
-        return view('pages.dashboard', ["reservations" => $reservation]);
+        return view('pages.dashboard', ["reservations" => $reservations]);
     }
 
 public function store(Request $request)
 {
+
     $validated = $request->validate([
         'reservation' => 'required',
       
@@ -36,7 +37,7 @@ public function store(Request $request)
 
 public function destroy(Request $request)
 {
-    $reservation = $reservation::find($request->id);
+    $reservation = Reservation::find($request->id);
     $reservation->delete();
 
     return redirect()->route('dashboard');

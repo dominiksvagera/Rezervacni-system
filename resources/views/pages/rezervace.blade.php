@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   @vite('resources/css/app.css')
-  @vite('resources/css/app.js')
+  @vite('resources/js/app.js')
 </head>
 <body class="bg-gray-100 font-serif">
 <section class="relative w-full px-8 text-white bg-gray-300 body-font" data-tails-scripts="//unpkg.com/alpinejs" {!! $attributes ?? '' !!}>
@@ -106,28 +106,34 @@
                 <p class="font-bold" x-text="day.date"></p>
                 <p class="text-sm" x-text="'Rezervace: ' + day.reservations.length + '/3'"></p>
 
-                <!-- Formulář pro přidání rezervace, pokud není kapacita vyčerpána -->
-                <template x-if="day.reservations.length < 3 && !day.reservationAdded">
-                    <form @submit.prevent="addReservation(day)" action="/dashboard" method="POST">
-                        @csrf
-                        <div class="mt-2">
-                            <input type="text" placeholder="Jméno" name="jmeno" x-model="day.tempName" class="w-full p-2 border rounded-md" required>
-                        </div>
-                        <div class="mt-2">
-                            <input type="email" placeholder="Email" name="email" x-model="day.tempEmail" class="w-full p-2 border rounded-md" required>
-                        </div>
-                        <button type="submit" class="mt-2 w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 text-center">
-                            Rezervace
-                        </button>
-                    </form>
-                </template>
+                <!-- Pokud je uživatel přihlášený, nabídne možnost přidat rezervaci -->
+                @auth
+                    <!-- Formulář pro přidání rezervace, pokud není kapacita vyčerpána -->
+                    <template x-if="day.reservations.length < 3 && !day.reservationAdded">
+                        <form @submit.prevent="addReservation(day)" action="/dashboard" method="POST">
+                            @csrf
+                            <div class="mt-2">
+                                <input type="text" placeholder="Jméno" name="jmeno" x-model="day.tempName" class="w-full p-2 border rounded-md" required>
+                            </div>
+                            <div class="mt-2">
+                                <input type="email" placeholder="Email" name="email" x-model="day.tempEmail" class="w-full p-2 border rounded-md" required>
+                            </div>
+                            <button type="submit" class="mt-2 w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 text-center">
+                                Rezervace
+                            </button>
+                        </form>
+                    </template>
 
-                <!-- Tlačítko na zrušení rezervace, pokud už rezervace existuje -->
-                <template x-if="day.reservationAdded">
-                    <button @click="removeReservation(day)" class="mt-2 w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 text-center">
-                        Zrušit
-                    </button>
-                </template>
+                    <!-- Tlačítko na zrušení rezervace, pokud už rezervace existuje -->
+                    <template x-if="day.reservationAdded">
+                        <button @click="removeReservation(day)" class="mt-2 w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 text-center">
+                            Zrušit
+                        </button>
+                    </template>
+                @else
+                    <!-- Upozornění, že musí být přihlášen -->
+                    <p class="text-gray-500 mt-2">Přihlaste se pro přidání nebo zrušení rezervace.</p>
+                @endauth
 
                 <!-- Zobrazení informací o plné kapacitě nebo potvrzení rezervace -->
                 <template x-if="day.reservations.length >= 3 || day.reservationAdded">
@@ -183,31 +189,35 @@
                 }
             },
 
-            // Přidání rezervace
+            // Přidání rezervace (pouze pro přihlášené uživatele)
             addReservation(day) {
-                if (day.tempName && day.tempEmail && day.reservations.length < 3) {
-                    day.reservations.push({
-                        name: day.tempName,
-                        email: day.tempEmail
-                    });
+                @auth
+                    if (day.tempName && day.tempEmail && day.reservations.length < 3) {
+                        day.reservations.push({
+                            name: day.tempName,
+                            email: day.tempEmail
+                        });
 
-                    // Uložit do globálních dat
-                    this.reservationsData[day.date] = day.reservations;
+                        // Uložit do globálních dat
+                        this.reservationsData[day.date] = day.reservations;
 
-                    // Nastavit indikaci úspěšného přidání rezervace
-                    day.reservationAdded = true;
+                        // Nastavit indikaci úspěšného přidání rezervace
+                        day.reservationAdded = true;
 
-                    // Vymazat pole po odeslání
-                    day.tempName = '';
-                    day.tempEmail = '';
-                }
+                        // Vymazat pole po odeslání
+                        day.tempName = '';
+                        day.tempEmail = '';
+                    }
+                @endauth
             },
 
-            // Odstranění rezervace
+            // Odstranění rezervace (pouze pro přihlášené uživatele)
             removeReservation(day) {
-                day.reservations = [];
-                this.reservationsData[day.date] = day.reservations;
-                day.reservationAdded = false;
+                @auth
+                    day.reservations = [];
+                    this.reservationsData[day.date] = day.reservations;
+                    day.reservationAdded = false;
+                @endauth
             },
 
             // Přesun na předchozí měsíc

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   @vite('resources/css/app.css')
-  @vite('resources/css/app.js')
+  @vite('resources/js/app.js')
 </head>
 <body class="bg-gray-100 font-serif">
 <section class="relative w-full px-8 text-white bg-gray-300 body-font" data-tails-scripts="//unpkg.com/alpinejs" {!! $attributes ?? '' !!}>
@@ -83,10 +83,11 @@
         </div>
     </section>
 <section>
+<h2 class="text-2xl font-bold font-serif leading-none text-black sm:text-xl md:text-2xl py-2 px-2"> Zde je přehled vašich rezervací:</h2>
       <div class="w-2/3">
             <div class="grid grid-cols-3 gap-2">
                 @foreach ($reservations as $reservation)
-                    <x-tile date="{{ $reservation->reservation }}">
+                    <x-tile date="{{ $reservation->reservation }}" reservationinfo="{{$reservation->user->name}}">
                         <x-modal title="Opravdu chcete smazat rezervaci?" action="Smazat">
                             
                             <form action="/reservation_delete" method="POST">
@@ -103,7 +104,7 @@
                 @endforeach
             </div>
 
-            <x-modal title="Vyvtořit novou rezervaci" action="Vytvořit novou rezervaci">
+            <x-modal title="Vyvtořit novou rezervaci" action="Vytvořit novou rezervaci" :open="$errors->any() ? 'true' : 'false' ">
                 <form action="/dashboard" method="POST" class="rounded-lg w-full *:mb-4">
                     @csrf
 
@@ -114,7 +115,9 @@
             </x-modal>
         </div>
     </div>
+
     </section>
+ 
 
   <section class="text-gray-700 bg-gray-100 body-font" {!! $attributes ?? '' !!}>
             <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
