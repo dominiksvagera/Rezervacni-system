@@ -11,13 +11,12 @@ class Reservation extends Model
 
     protected $fillable = [
         'user_id',
-        'created_at_date',
         'reservation',
     ];
+   
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
 }

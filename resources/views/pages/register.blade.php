@@ -100,22 +100,10 @@
                 @csrf
                     <div class="relative z-10 h-auto p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7" data-rounded="rounded-lg" data-rounded-max="rounded-full">
                         <h3 class="mb-6 text-2xl font-medium text-center">Registrace nového účtu</h3>
-                        <input type="text" name="name" id="name" class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none"  data-rounded="rounded-lg" data-primary="blue-500" placeholder="Jméno">
-                        @error('name')
-    <div class="alert alert-danger text-sm text-red-400">{{ $message }}</div>
-@enderror
-                        <input type="text" name="email" id="email" class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none"  data-rounded="rounded-lg" data-primary="blue-500" placeholder="Emailová adresa">
-                        @error('email')
-    <div class="alert alert-danger text-sm text-red-400">{{ $message }}</div>
-@enderror
-                        <input type="password" name="password" id="password" class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none"  data-rounded="rounded-lg" data-primary="blue-500" placeholder="Heslo">
-                        @error('password')
-    <div class="alert alert-danger text-sm text-red-400">{{ $message }}</div>
-@enderror
-                        <input type="password" name="password" id="password" class="block w-full px-4 py-3 mb-4 border border-2 border-transparent border-gray-200 rounded-lg focus:ring focus:ring-blue-500 focus:outline-none"  data-rounded="rounded-lg" data-primary="blue-500" placeholder="Potvrzení hesla">
-                        @error('password')
-    <div class="alert alert-danger text-sm text-red-400">{{ $message }}</div>
-@enderror
+                        <x-input type="text" name="name" placeholder="Jméno" />
+                        <x-input type="email" name="email" placeholder="Email" />
+                        <x-input type="password" name="password" placeholder="Heslo" />
+                        <x-input type="password" name="password" placeholder="Heslo" />
 
                         <div class="block">
                             <button class="w-full px-3 py-4 font-medium text-white bg-indigo-600 rounded-lg" type="submit" action="/dashboard" data-primary="blue-600" data-rounded="rounded-lg">Registrovat se</button>

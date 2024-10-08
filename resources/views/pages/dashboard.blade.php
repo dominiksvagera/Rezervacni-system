@@ -82,26 +82,39 @@
             </div>
         </div>
     </section>
-        
+<section>
+      <div class="w-2/3">
+            <div class="grid grid-cols-3 gap-2">
+                @foreach ($reservations as $reservation)
+                    <x-tile date="{{ $reservation->reservation }}">
+                        <x-modal title="Opravdu chcete smazat rezervaci?" action="Smazat">
+                            
+                            <form action="/reservation_delete" method="POST">
+                                @csrf
+                                <input type="hidden" value="{{ $reservation->id }}" name="id">
 
-    <section class="px-2 py-32 bg-white md:px-0 bg-gray-100">
-        <div class="container items-center max-w-6xl px-8 mx-auto xl:px-5">
-          <div class="flex flex-wrap items-center sm:-mx-3">
-            <div class="w-full md:w-1/2 md:px-3">
-              <div class="w-full pb-6 space-y-6 sm:max-w-md lg:max-w-lg md:space-y-4 lg:space-y-8 xl:space-y-9 sm:pr-5 lg:pr-0 md:pb-0">
-                <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
-                
-                  <span class="block text-indigo-600 xl:inline" data-primary="indigo-600">Zde je přehled vašich rezervací:</span>
-                </h1>
-                </div>
+                                <button type="submit" class="bg-red-500 rounded-lg px-4 py-2 text-white font-semibold">
+                                    SMAZAT
+                                </button>
+                            </form>
+
+                        </x-modal>
+                    </x-tile>
+                @endforeach
             </div>
-          </div>
+
+            <x-modal title="Vyvtořit novou rezervaci" action="Vytvořit novou rezervaci">
+                <form action="/dashboard" method="POST" class="rounded-lg w-full *:mb-4">
+                    @csrf
+
+                    <x-input type="date" name="reservation" placeholder="Kdy chcete rezervovat?" />
+
+                    <x-primarybutton type="submit">Rezervovat</x-primarybutton>
+                </form>
+            </x-modal>
         </div>
-
-
-
-      </section>
-
+    </div>
+    </section>
 
   <section class="text-gray-700 bg-gray-100 body-font" {!! $attributes ?? '' !!}>
             <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
