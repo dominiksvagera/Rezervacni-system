@@ -37,13 +37,15 @@ Route::post('/reservation_delete', [DashboardController::class, 'destroy'])
 ->middleware(['auth'])
 ->name('destroy.reservation');
 
-Route::get('/', [ReservationController::class, 'index'])->name('home');
+Route::get('/rezervace', [ReservationController::class, 'index'])->name('home');
 
 // Různé akce dostupné pouze pro přihlášené uživatele
 Route::middleware(['auth'])->group(function () {
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
     Route::delete('/reservations/{date}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 });
+
+
 
 
     

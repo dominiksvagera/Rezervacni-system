@@ -6,8 +6,17 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   @vite('resources/css/app.css')
   @vite('resources/js/app.js')
+  <style>
+            .text-center {
+                text-align: center;
+            }
+            #map {
+                width: 100%;
+                height: 400px;
+            }
+        </style>
 </head>
-<body class="bg-gray-100 font-serif">
+<body class="bg-gray-100 font-serif flex flex-col min-h-screen">
 <section class="relative w-full px-8 text-white bg-gray-300 body-font" data-tails-scripts="//unpkg.com/alpinejs" {!! $attributes ?? '' !!}>
         <div class="container flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
             <a href="/" class="relative z-10 flex items-center w-auto text-2xl font-extrabold leading-none text-black select-none">BULL SPORT RAJHRAD</a>
@@ -85,7 +94,7 @@
 
 
         
-    <section class="w-full px-8 py-16 bg-gray-100 xl:px-8">
+    <section class="flex justify-between items-center w-full px-8 py-16 bg-gray-100 xl:px-8">
         <div class="max-w-5xl mx-auto">
             <div class="flex flex-col items-center md:flex-row">
     
@@ -100,9 +109,8 @@
                     <h2 class="text-lg font-medium leading-none text-black sm:text-xl md:text-lg">
                         Hlavní 12, Rajhrad 664 61
                     </h2>
-                    
-                </div>
-    
+                    </div>
+  
                
     
             </div>
@@ -110,7 +118,7 @@
     </section>
 
     
-        <section class="text-gray-700 bg-gray-100 body-font" {!! $attributes ?? '' !!}>
+        <section class="text-gray-700 bg-gray-100 body-font mt-auto" {!! $attributes ?? '' !!}>
             <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
                 <a href="/" class="text-xl font-black leading-none text-gray-900 select-none logo">BULL SPORT RAJHRAD<span class="text-indigo-600"></span></a>
                 <p class="mt-4 text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l sm:border-gray-200 sm:mt-0">&copy; 2024 Dominik Švagera
