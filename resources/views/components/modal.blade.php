@@ -1,4 +1,4 @@
-<div x-data="{ modalOpen: {{$open ?? false }} }"
+<div x-data="{ modalOpen: {{$open ?? 'false' }} }"
     @keydown.escape.window="modalOpen = false"
     class="relative z-50 w-auto h-auto">
 

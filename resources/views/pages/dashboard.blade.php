@@ -88,7 +88,7 @@
             <div class="grid grid-cols-3 gap-2">
                 @foreach ($reservations as $reservation)
                     <x-tile date="{{ $reservation->reservation }}" reservationinfo="{{$reservation->user->name}}">
-                        <x-modal title="Opravdu chcete smazat rezervaci?" action="Smazat">
+                        <x-modal title="Opravdu chcete smazat rezervaci?" action="Smazat" >
                             
                             <form action="/reservation_delete" method="POST">
                                 @csrf
