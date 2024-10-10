@@ -12,7 +12,9 @@
         <div class="container flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
             <a href="/" class="relative z-10 flex items-center w-auto text-2xl font-extrabold leading-none text-black select-none">BULL SPORT RAJHRAD</a>
             <div x-data="{ open: false }" class="lg:hidden">
-                <button @click="open = ! open">Menu</button>
+                <button @click="open = ! open"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+</svg></button>
              
                 <div x-show="open">
                     <nav class="top-0 left-0 z-0 flex flex-col items-center justify-center w-full h-full py-5 -ml-0 space-x-5 text-base md:-ml-5 md:py-0 md:absolute">

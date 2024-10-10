@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\AdminController;
 
 Route::view('/', 'index');
 Route::view('/onas', 'pages.onas');
@@ -37,15 +37,20 @@ Route::post('/reservation_delete', [DashboardController::class, 'destroy'])
 ->middleware(['auth'])
 ->name('destroy.reservation');
 
-Route::get('/rezervace', [ReservationController::class, 'index'])->name('home');
+Route::post('/reservation_update', [DashboardController::class, 'update'])
+->middleware(['auth'])
+->name('update.reservation');
+
+Route::get('rezervace', [AdminController::class, 'index'])->name('home');
 
 // Různé akce dostupné pouze pro přihlášené uživatele
 Route::middleware(['auth'])->group(function () {
-    Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
-    Route::delete('/reservations/{date}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    Route::post('/reservations', [AdminController::class, 'store'])->name('reservations.store');
+    Route::delete('/reservations/{date}', [AdminController::class, 'destroy'])->name('reservations.destroy');
 });
 
-
+Route::get('/reservations', [AdminController::class, 'index'])->name('reservations.index');
+Route::get('/reservations/month/{month}', [AdminController::class, 'getReservationsByMonth']);
 
 
     

@@ -12,7 +12,9 @@
         <div class="container flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
             <a href="/" class="relative z-10 flex items-center w-auto text-2xl font-extrabold leading-none text-black select-none">BULL SPORT RAJHRAD</a>
             <div x-data="{ open: false }" class="lg:hidden">
-                <button @click="open = ! open">Menu</button>
+                <button @click="open = ! open"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+</svg></button>
              
                 <div x-show="open">
                     <nav class="top-0 left-0 z-0 flex flex-col items-center justify-center w-full h-full py-5 -ml-0 space-x-5 text-base md:-ml-5 md:py-0 md:absolute">
@@ -83,16 +85,38 @@
         </div>
     </section>
 <section>
+    <div class="flex justify-between m-2 p-2">
 <h2 class="text-2xl font-bold font-serif leading-none text-black sm:text-xl md:text-2xl py-2 px-2"> Zde je přehled vašich rezervací:</h2>
-      <div class="w-2/3">
-            <div class="grid grid-cols-3 gap-2">
+<x-modal title="Vyvtořit novou rezervaci" action="Vytvořit novou rezervaci" :open="$errors->any() ? 'true' : 'false' ">
+                <form action="/dashboard" method="POST" class="rounded-lg w-full *:mb-4">
+                    @csrf
+
+                    <label for="lessons">Vyberte lekci:</label>
+                  
+<select name="lesson" id="lesson">
+  <option value="">--Prosím vyberte lekci--</option>
+  @foreach ($lessons as $lesson)
+  <option value="{{$lesson->id}}">{{$lesson->date}} | {{$lesson->start_at}} - {{$lesson->end_at}}</option>
+  @endforeach
+</select>
+@error('lesson')
+    <div class="alert alert-danger text-sm text-red-400">{{ $message }}</div>
+        @enderror
+
+                    <x-primarybutton type="submit">Rezervovat</x-primarybutton>
+                </form>
+            </x-modal>
+            </div>
+
+      <div class=" w-full m-2 p-2">
+            <div class="grid grid-cols-4 gap-2">
                 @foreach ($reservations as $reservation)
-                    <x-tile date="{{ $reservation->reservation }}" reservationinfo="{{$reservation->user->name}}">
+                    <x-tile date="{{ $reservation->lesson->title }}" reservationinfo="{{$reservation->user->name}}" datum="{{$reservation->lesson->date}}" start="{{$reservation->lesson->start_at}}" end="{{$reservation->lesson->end_at}}">
                         <x-modal title="Opravdu chcete smazat rezervaci?" action="Smazat" >
                             
                             <form action="/reservation_delete" method="POST">
                                 @csrf
-                                <input type="hidden" value="{{ $reservation->id }}" name="id">
+                                <input type="hidden"  value="{{ $reservation->id }}" name="id">
 
                                 <button type="submit" class="bg-red-500 rounded-lg px-4 py-2 text-white font-semibold">
                                     SMAZAT
@@ -100,22 +124,9 @@
                             </form>
 
                         </x-modal>
-                    </x-tile>
-                @endforeach
-            </div>
-
-            <x-modal title="Vyvtořit novou rezervaci" action="Vytvořit novou rezervaci" :open="$errors->any() ? 'true' : 'false' ">
-                <form action="/dashboard" method="POST" class="rounded-lg w-full *:mb-4">
-                    @csrf
-
-                    <x-input type="date" name="reservation" placeholder="Kdy chcete rezervovat?" />
-
-                    <x-primarybutton type="submit">Rezervovat</x-primarybutton>
-                </form>
-            </x-modal>
-        </div>
-    </div>
-
+                        </x-tile>
+                        @endforeach
+                </div>
     </section>
  
 

@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservations', function (Blueprint $table) {
+        Schema::create('lessons', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-            $table->foreignId('lesson_id');
+            $table->string('title');
+            $table->date('date');
+            $table->time('start_at');
+            $table->time('end_at');
+            $table->unsignedInteger('capacity');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservation');
+        Schema::dropIfExists('lessons');
     }
 };

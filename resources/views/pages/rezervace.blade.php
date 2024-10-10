@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="{{ asset('js/fullcalendar.js') }}"></script>
+  
   @vite('resources/css/app.css')
   @vite('resources/js/app.js')
 </head>
@@ -12,7 +14,10 @@
         <div class="container flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
             <a href="/" class="relative z-10 flex items-center w-auto text-2xl font-extrabold leading-none text-black select-none">BULL SPORT RAJHRAD</a>
             <div x-data="{ open: false }" class="lg:hidden">
-                <button @click="open = ! open">Menu</button>
+                <button @click="open = ! open"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+</svg>
+</button>
              
                 <div x-show="open">
                     <nav class="top-0 left-0 z-0 flex flex-col items-center justify-center w-full h-full py-5 -ml-0 space-x-5 text-base md:-ml-5 md:py-0 md:absolute">
@@ -83,177 +88,97 @@
         </div>
     </section>
 
-    <!-- Tady bude celý rezervační systém - budu si dělat postupně poznámky abych věděl, co je co. -->
+<section class="font-serif">
+<div class="container">
+    <h1 class="text-xl font-bold font-serif leading-none text-black lg:text-2xl md:text-xl py-2 px-2">Přehled všech rezervací:</h1>
+    <h1 class=" font-bold font-serif leading-none text-black lg:text-sm md:text-sm sm:text-sm py-2 px-2">Přihlaste se pro vytvoření nové rezervace.</h1>
 
-    <div class="max-w-4xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-lg" x-data="reservationCalendar()">
-    <h1 class="text-2xl font-bold text-center mb-6">Rezervační systém</h1>
-
-    <!-- Ovládací prvky pro posun mezi měsíci -->
-    <div class="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
-        <button @click="prevMonth" class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 w-full md:w-auto">
-            Předchozí měsíc
-        </button>
-        <h2 class="text-xl font-semibold text-center" x-text="currentMonthName + ' ' + currentYear"></h2>
-        <button @click="nextMonth" class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 w-full md:w-auto">
-            Další měsíc
-        </button>
-    </div>
-
-    <!-- Kalendářní mřížka -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
-        <template x-for="day in daysOfMonth" :key="day.date">
-            <div class="border p-4 rounded-lg text-center">
-                <p class="font-bold" x-text="day.date"></p>
-                <p class="text-sm" x-text="'Rezervace: ' + day.reservations.length + '/3'"></p>
-
-                <!-- Pokud je uživatel přihlášený, nabídne možnost přidat rezervaci -->
-                @auth
-                    <!-- Formulář pro přidání rezervace, pokud není kapacita vyčerpána -->
-                    <template x-if="day.reservations.length < 3 && !day.reservationAdded">
-                        <form @submit.prevent="addReservation(day)" action="/dashboard" method="POST">
-                            @csrf
-                            <div class="mt-2">
-                                <input type="text" placeholder="Jméno" name="jmeno" x-model="day.tempName" class="w-full p-2 border rounded-md" required>
-                            </div>
-                            <div class="mt-2">
-                                <input type="email" placeholder="Email" name="email" x-model="day.tempEmail" class="w-full p-2 border rounded-md" required>
-                            </div>
-                            <button type="submit" class="mt-2 w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 text-center">
-                                Rezervace
-                            </button>
-                        </form>
-                    </template>
-
-                    <!-- Tlačítko na zrušení rezervace, pokud už rezervace existuje -->
-                    <template x-if="day.reservationAdded">
-                        <button @click="removeReservation(day)" class="mt-2 w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 text-center">
-                            Zrušit
-                        </button>
-                    </template>
-                @else
-                    <!-- Upozornění, že musí být přihlášen -->
-                    <p class="text-gray-500 mt-2">Přihlaste se pro přidání nebo zrušení rezervace.</p>
-                @endauth
-
-                <!-- Zobrazení informací o plné kapacitě nebo potvrzení rezervace -->
-                <template x-if="day.reservations.length >= 3 || day.reservationAdded">
-                    <p class="text-green-500 font-semibold mt-2" x-show="day.reservationAdded">Rezervace úspěšně přidána!</p>
-                    <p class="text-red-500 font-semibold mt-2" x-show="day.reservations.length >= 3 && !day.reservationAdded">Plná kapacita!</p>
-                </template>
-
-                <!-- Seznam rezervací pro konkrétní den -->
-                <ul class="mt-2">
-                    <template x-for="reservation in day.reservations" :key="reservation.email">
-                        <li class="text-sm">
-                            <span x-text="reservation.name"></span> - <span x-text="reservation.email"></span>
-                        </li>
-                    </template>
-                </ul>
-            </div>
-        </template>
-    </div>
+    @if($reservations->isEmpty())
+        <p class="text-2xl font-bold font-serif leading-none text-black sm:text-xl md:text-2xl py-2 px-2">Žádné rezervace nejsou k dispozici.</p>
+    @else
+        <table class="table table-bordered">
+            <section class="flex items-center justify-center m-2 p-2">
+            <thead>
+                <tr>
+                    <th class="flex items-center justify-center m-2 p-2  w-full h-full">ID uživatele</th>
+                    <th class=" m-2 p-2 ">Datum rezervace</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($reservations as $reservation)
+                <tr>
+                    <td class="flex items-center justify-center m-2 p-2">{{ $reservation->user_id }}</td>
+                    <td class=" m-2 p-2">{{ $reservation->reservation }}</td>
+                </tr>
+                </section>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
 </div>
+</section>
+
+<section class="font-serif">
+<div class="container">
+    <h1 class="text-xl font-bold font-serif leading-none text-black lg:text-2xl md:text-xl py-2 px-2">Přehled všech rezervací:</h1>
+    <h1 class=" font-bold font-serif leading-none text-black lg:text-sm md:text-sm sm:text-sm py-2 px-2">Přihlaste se pro vytvoření nové rezervace.</h1>
+
+    @if($lessons->isEmpty())
+        <p class="text-2xl font-bold font-serif leading-none text-black sm:text-xl md:text-2xl py-2 px-2">Žádné rezervace nejsou k dispozici.</p>
+    @else
+        <table class="table table-bordered">
+            <section class="flex items-center justify-center m-2 p-2">
+            <thead>
+                <tr>
+                    <th class="flex items-center justify-center m-2 p-2  w-full h-full">ID uživatele</th>
+                    <th class=" m-2 p-2 ">Datum rezervace</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($lessons as $lesson)
+                <tr>
+                    <td class="flex items-center justify-center m-2 p-2">{{ $lesson->title }}</td>
+                    <td class=" m-2 p-2">{{ $lesson->date }}</td>
+                </tr>
+                </section>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+</div>
+</section>
+
+<section>
 
 <script>
-    function reservationCalendar() {
-        return {
-            currentMonth: new Date().getMonth(),  // Index měsíce (0-11)
-            currentYear: new Date().getFullYear(), // Aktuální rok
-            reservationsData: {}, // Uložení rezervací pro všechny dny a měsíce
-            daysOfMonth: [],
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: function(fetchInfo, successCallback, failureCallback) {
+                let month = fetchInfo.startStr.substring(0, 7); // Získání aktuálního měsíce
 
-            // Inicializace kalendáře
-            init() {
-                this.updateDaysOfMonth();
-            },
-
-            // Přepočítání dní v měsíci
-            updateDaysOfMonth() {
-                const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-                const monthString = this.currentYear + '-' + (this.currentMonth + 1).toString().padStart(2, '0');
-
-                // Generování dní pro konkrétní měsíc
-                this.daysOfMonth = [];
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const date = `${monthString}-${day.toString().padStart(2, '0')}`;
-                    if (!this.reservationsData[date]) {
-                        this.reservationsData[date] = [];
-                    }
-                    this.daysOfMonth.push({
-                        date: date,
-                        reservations: this.reservationsData[date],
-                        tempName: '',  // Dočasné pole pro jméno
-                        tempEmail: '', // Dočasné pole pro email
-                        reservationAdded: false // Zda byla přidána rezervace
-                    });
-                }
-            },
-
-            // Přidání rezervace (pouze pro přihlášené uživatele)
-            addReservation(day) {
-                @auth
-                    if (day.tempName && day.tempEmail && day.reservations.length < 3) {
-                        day.reservations.push({
-                            name: day.tempName,
-                            email: day.tempEmail
+                // Ajax dotaz na získání rezervací pro daný měsíc
+                $.ajax({
+                    url: '/rezervace/month/' + month,
+                    method: 'GET',
+                    success: function (data) {
+                        let events = data.map(function (reservation) {
+                            return {
+                                title: 'Rezervace',
+                                start: rezervace.reservation,
+                            };
                         });
-
-                        // Uložit do globálních dat
-                        this.reservationsData[day.date] = day.reservations;
-
-                        // Nastavit indikaci úspěšného přidání rezervace
-                        day.reservationAdded = true;
-
-                        // Vymazat pole po odeslání
-                        day.tempName = '';
-                        day.tempEmail = '';
+                        successCallback(events);
                     }
-                @endauth
-            },
-
-            // Odstranění rezervace (pouze pro přihlášené uživatele)
-            removeReservation(day) {
-                @auth
-                    day.reservations = [];
-                    this.reservationsData[day.date] = day.reservations;
-                    day.reservationAdded = false;
-                @endauth
-            },
-
-            // Přesun na předchozí měsíc
-            prevMonth() {
-                if (this.currentMonth === 0) {
-                    this.currentMonth = 11;
-                    this.currentYear--;
-                } else {
-                    this.currentMonth--;
-                }
-                this.updateDaysOfMonth();
-            },
-
-            // Přesun na další měsíc
-            nextMonth() {
-                if (this.currentMonth === 11) {
-                    this.currentMonth = 0;
-                    this.currentYear++;
-                } else {
-                    this.currentMonth++;
-                }
-                this.updateDaysOfMonth();
-            },
-
-            // Název aktuálního měsíce
-            get currentMonthName() {
-                const months = [
-                    "Leden", "Únor", "Březen", "Duben", "Květen", "Červen",
-                    "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"
-                ];
-                return months[this.currentMonth];
+                });
             }
-        };
-    }
+        });
+        calendar.render();
+    });
 </script>
 
+</section>
     
     <section class="text-gray-700 bg-gray-100 body-font mt-auto" {!! $attributes ?? '' !!}>
         <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
