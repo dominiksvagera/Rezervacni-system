@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="{{ asset('js/fullcalendar.js') }}"></script>
+  
   @vite('resources/css/app.css')
   @vite('resources/js/app.js')
 </head>
@@ -14,7 +16,8 @@
             <div x-data="{ open: false }" class="lg:hidden">
                 <button @click="open = ! open"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-</svg></button>
+</svg>
+</button>
              
                 <div x-show="open">
                     <nav class="top-0 left-0 z-0 flex flex-col items-center justify-center w-full h-full py-5 -ml-0 space-x-5 text-base md:-ml-5 md:py-0 md:absolute">
@@ -76,54 +79,80 @@
                 <a href="/login" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-gray-600 whitespace-no-wrap bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:shadow-none" data-rounded="rounded-md">
                     Přihlásit se
                 </a>
-              
+             
             </div>
         </div>
     </section>
 
 
-    <section class="w-full px-8 py-16 bg-gray-100 xl:px-8">
-        <div class="max-w-5xl mx-auto">
-            <div class="flex flex-col items-center md:flex-row">
-    
-                <div class="w-full space-y-5 md:w-3/5 md:pr-16">
-                    <p class="font-medium text-blue-500 uppercase" data-primary="blue-500">Začněte dnes</p>
-                    <h2 class="text-2xl font-extrabold leading-none text-black sm:text-3xl md:text-5xl">
-                        Registrujte se nyní a zarezervujte si svou první lekci!
-                    </h2>
-                    
-                </div>
-    <form action="/register" method="POST" class="w-full mt-16 md:mt-0 md:w-2/5" >
-                @csrf
-                    <div class="relative z-10 h-auto p-8 py-10 overflow-hidden bg-white border-b-2 border-gray-300 rounded-lg shadow-2xl px-7" data-rounded="rounded-lg" data-rounded-max="rounded-full">
-                        <h3 class="mb-6 text-2xl font-medium text-center">Registrace nového účtu</h3>
-                        <x-input type="text" name="name" placeholder="Jméno" />
-                        <x-input type="email" name="email" placeholder="Email" />
-                        <x-input type="password" name="password" placeholder="Heslo" />
-                        <x-input type="password" name="password" placeholder="Opakujte heslo" />
 
-                        <div class="block">
-                            <button class="w-full px-3 py-4 font-medium text-white bg-indigo-600 rounded-lg" type="submit" action="/dashboard" data-primary="blue-600" data-rounded="rounded-lg">Registrovat se</button>
-   
-                        </div>
-                        <p class="w-full mt-4 text-sm text-center text-gray-500">Máte již účet? <a href="login" class="text-blue-500 underline">Přihlaste se zde.</a></p>
-                    </div>
-                
-                </form>
 
-   
-            </div>
+<div class="container">
+    <h1>Vytvořit novou lekci</h1>
+
+    <form action="{{ route('lessons.store') }}" method="POST">
+        @csrf
+
+        <div class="form-group">
+            <label for="name">Název lekce:</label>
+            <input type="text" name="name" id="name" class="form-control" required>
         </div>
-     
-    </section>
 
-    <section class="text-gray-700 bg-gray-100 body-font mt-auto" {!! $attributes ?? '' !!}>
+        <div class="form-group">
+            <label for="description">Popis lekce:</label>
+            <textarea name="description" id="description" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="start_time">Datum a čas začátku:</label>
+            <input type="datetime-local" name="start_time" id="start_time" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="capacity">Kapacita:</label>
+            <input type="number" name="capacity" id="capacity" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Vytvořit lekci</button>
+    </form>
+</div>
+
+<div class="container">
+    <h1>Seznam lekcí</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Název</th>
+                <th>Datum</th>
+                <th>Začáek</th>
+                <th>Konec</th>
+                <th>Kapacita</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($lessons as $lesson)
+            <tr>
+                <td>{{ $lesson->title }}</td>
+                <td>{{ $lesson->date }}</td>
+                <td>{{ $lesson->start_at }}</td>
+                <td>{{ $lesson->end_at }}</td>
+                <td>{{ $lesson->capacity }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
+
+
+<section class="text-gray-700 bg-gray-100 body-font mt-auto" {!! $attributes ?? '' !!}>
         <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
             <a href="/" class="text-xl font-black leading-none text-gray-900 select-none logo">BULL SPORT RAJHRAD<span class="text-indigo-600"></span></a>
             <p class="mt-4 text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l sm:border-gray-200 sm:mt-0">&copy; 2024 Dominik Švagera
             </p>
             <span class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start">
-                <a href="#" class="text-gray-400 hover:text-gray-500">
+                <a href="" class="text-gray-400 hover:text-gray-500">
                     <span class="sr-only">Facebook</span>
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />

@@ -52,5 +52,6 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/reservations', [AdminController::class, 'index'])->name('reservations.index');
 Route::get('/reservations/month/{month}', [AdminController::class, 'getReservationsByMonth']);
 
-
-    
+Route::get('/lessons', [AdminController::class, 'index'])->name('lessons.index');
+Route::get('/lessons/create', [AdminController::class, 'create'])->name('lessons.create');
+Route::post('/lessons', [AdminController::class, 'store'])->name('lessons.store');

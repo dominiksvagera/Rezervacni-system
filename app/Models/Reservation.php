@@ -13,7 +13,7 @@ class Reservation extends Model
     protected $fillable = ['user_id', 'name', 'email', 'date', 'lesson_id'];
 
     protected $casts = [
-        'reservation' => 'datetime:Y-m-d', // Castujeme reservation_date na správný formát
+        'lesson_id' => 'datetime:Y-m-d', // Castujeme reservation_date na správný formát
     ];
 
     // Relace - rezervace patří uživateli

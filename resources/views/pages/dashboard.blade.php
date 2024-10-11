@@ -107,7 +107,6 @@
                 </form>
             </x-modal>
             </div>
-
       <div class=" w-full m-2 p-2">
             <div class="grid grid-cols-4 gap-2">
                 @foreach ($reservations as $reservation)
@@ -127,6 +126,8 @@
                         </x-tile>
                         @endforeach
                 </div>
+        
+        
     </section>
  
 

@@ -87,14 +87,13 @@
             </div>
         </div>
     </section>
-
+<div class="flex justify-between items-center m-2 p-2 w-full">
 <section class="font-serif">
 <div class="container">
     <h1 class="text-xl font-bold font-serif leading-none text-black lg:text-2xl md:text-xl py-2 px-2">Přehled všech rezervací:</h1>
-    <h1 class=" font-bold font-serif leading-none text-black lg:text-sm md:text-sm sm:text-sm py-2 px-2">Přihlaste se pro vytvoření nové rezervace.</h1>
 
     @if($reservations->isEmpty())
-        <p class="text-2xl font-bold font-serif leading-none text-black sm:text-xl md:text-2xl py-2 px-2">Žádné rezervace nejsou k dispozici.</p>
+        <p class="text-sm font-bold font-serif leading-none text-black sm:text-sm md:text-sm py-2 px-2">Žádné rezervace nejsou k dispozici.</p>
     @else
         <table class="table table-bordered">
             <section class="flex items-center justify-center m-2 p-2">
@@ -108,7 +107,7 @@
                 @foreach($reservations as $reservation)
                 <tr>
                     <td class="flex items-center justify-center m-2 p-2">{{ $reservation->user_id }}</td>
-                    <td class=" m-2 p-2">{{ $reservation->reservation }}</td>
+                    <td class=" m-2 p-2">{{ $reservation->lesson_id }}</td>
                 </tr>
                 </section>
                 @endforeach
@@ -120,18 +119,20 @@
 
 <section class="font-serif">
 <div class="container">
-    <h1 class="text-xl font-bold font-serif leading-none text-black lg:text-2xl md:text-xl py-2 px-2">Přehled všech rezervací:</h1>
-    <h1 class=" font-bold font-serif leading-none text-black lg:text-sm md:text-sm sm:text-sm py-2 px-2">Přihlaste se pro vytvoření nové rezervace.</h1>
+    <h1 class="text-xl font-bold font-serif leading-none text-black lg:text-2xl md:text-xl py-2 px-2">Přehled všech lekcí:</h1>
+  
 
     @if($lessons->isEmpty())
-        <p class="text-2xl font-bold font-serif leading-none text-black sm:text-xl md:text-2xl py-2 px-2">Žádné rezervace nejsou k dispozici.</p>
+        <p class="text-2xl font-bold font-serif leading-none text-black sm:text-xl md:text-2xl py-2 px-2">Žádné lekce nejsou vypsány.</p>
     @else
         <table class="table table-bordered">
             <section class="flex items-center justify-center m-2 p-2">
             <thead>
                 <tr>
-                    <th class="flex items-center justify-center m-2 p-2  w-full h-full">ID uživatele</th>
-                    <th class=" m-2 p-2 ">Datum rezervace</th>
+                    <th class="flex items-center justify-center m-2 p-2  w-full h-full">Název lekce:</th>
+                    <th class=" m-2 p-2 ">Datum lekce:</th>
+                    <th class=" m-2 p-2 ">Začátek lekce:</th>
+                    <th class=" m-2 p-2 ">Konec lekce:</th>
                 </tr>
             </thead>
             <tbody>
@@ -139,17 +140,53 @@
                 <tr>
                     <td class="flex items-center justify-center m-2 p-2">{{ $lesson->title }}</td>
                     <td class=" m-2 p-2">{{ $lesson->date }}</td>
+                    <td class=" m-2 p-2">{{ $lesson->start_at }}</td>
+                    <td class=" m-2 p-2">{{ $lesson->end_at }}</td>
                 </tr>
                 </section>
                 @endforeach
             </tbody>
         </table>
     @endif
+    <div class="container">
+    <h1>Vytvořit novou lekci</h1>
+
+    <form action="{{ route('lessons.store') }}" method="POST">
+        @csrf
+
+        <div class="form-group">
+            <label for="title">Název lekce:</label>
+            <input type="text" name="title" id="title" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Datum lekce:</label>
+            <textarea name="date" id="date" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="start_at">Čas začátku:</label>
+            <input type="time-local" name="start_at" id="start_at" class="form-control" required>
+        </div>
+
+
+        <div class="form-group">
+            <label for="start_at">Čas konce:</label>
+            <input type="time-local" name="end_at" id="end_at" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="capacity">Kapacita:</label>
+            <input type="number" name="capacity" id="capacity" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Vytvořit lekci</button>
+    </form>
+</div>
 </div>
 </section>
 
 <section>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar');
@@ -179,7 +216,7 @@
 </script>
 
 </section>
-    
+</div>
     <section class="text-gray-700 bg-gray-100 body-font mt-auto" {!! $attributes ?? '' !!}>
         <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
             <a href="/" class="text-xl font-black leading-none text-gray-900 select-none logo">BULL SPORT RAJHRAD<span class="text-indigo-600"></span></a>
