@@ -90,7 +90,7 @@
 <div class="container">
     <h1>Vytvořit novou lekci</h1>
 
-    <form action="{{ route('lessons.store') }}" method="POST">
+    <form  action="{{ route('lessons.store') }}" method="POST">
         @csrf
 
         <div class="form-group">
@@ -113,7 +113,7 @@
             <input type="number" name="capacity" id="capacity" class="form-control" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Vytvořit lekci</button>
+        <button type="submit" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium tracking-wide text-white transition-colors duration-200 rounded-md bg-neutral-950 hover:bg-neutral-900 focus:ring-2 focus:ring-offset-2 focus:ring-neutral-900 focus:shadow-outline focus:outline-none">Vytvořit lekci</button>
     </form>
 </div>
 

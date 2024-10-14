@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\Lesson;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Reservation extends Model
 {
@@ -11,10 +14,6 @@ class Reservation extends Model
 
     // Povolené atributy pro hromadné přiřazení (mass assignment)
     protected $fillable = ['user_id', 'name', 'email', 'date', 'lesson_id'];
-
-    protected $casts = [
-        'lesson_id' => 'datetime:Y-m-d', // Castujeme reservation_date na správný formát
-    ];
 
     // Relace - rezervace patří uživateli
     public function user()
@@ -24,6 +23,6 @@ class Reservation extends Model
 
     public function lesson()
     {
-        return $this->belongsTo(Lesson::class);
+        return $this->belongsTo(Lesson::class, 'lesson_id', 'id');
     }
 }

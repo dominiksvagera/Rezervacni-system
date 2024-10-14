@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Lesson extends Model
 {
@@ -11,9 +12,6 @@ class Lesson extends Model
 
     protected $fillable = ['title', 'date', 'start_at', 'end_at', 'capacity'];  
 
+   
 
-public function reservations()
-{
-    return $this->hasMany(Reservation::class);
-}
 }

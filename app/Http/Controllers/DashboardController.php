@@ -18,6 +18,10 @@ class DashboardController extends Controller
         return view('pages.dashboard', [
             "reservations" => $reservations,
             'lessons' => $lessons,
+            'title' => $lessons,
+        'date' => $lessons,
+        'start_at' => $lessons,
+        'end_at' => $lessons,
 ]);
     }
 

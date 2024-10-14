@@ -107,10 +107,11 @@
                 </form>
             </x-modal>
             </div>
-      <div class=" w-full m-2 p-2">
+                </div>
+                <div class=" w-full m-2 p-2">
             <div class="grid grid-cols-4 gap-2">
                 @foreach ($reservations as $reservation)
-                    <x-tile date="{{ $reservation->lesson->title }}" reservationinfo="{{$reservation->user->name}}" datum="{{$reservation->lesson->date}}" start="{{$reservation->lesson->start_at}}" end="{{$reservation->lesson->end_at}}">
+                    <x-tile date="{{ $reservation->lesson?->title }}" reservationinfo="{{$reservation->user->name}}" datum="{{$reservation->lesson?->date}}" start="{{$reservation->lesson?->start_at}}" end="{{$reservation->lesson?->end_at}}">
                         <x-modal title="Opravdu chcete smazat rezervaci?" action="Smazat" >
                             
                             <form action="/reservation_delete" method="POST">
@@ -125,8 +126,6 @@
                         </x-modal>
                         </x-tile>
                         @endforeach
-                </div>
-        
         
     </section>
  

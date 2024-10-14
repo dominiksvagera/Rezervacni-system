@@ -46,7 +46,7 @@ class AdminController extends Controller
     public function getReservationsByMonth($month)
     {
         // Získání rezervací pro daný měsíc
-        $reservations = Reservation::where('reservation', 'like', $month . '%')->get();
+        $reservations = Reservation::where('lesson_id', 'like', $month . '%')->get();
 
         return response()->json($reservations);
     }

@@ -87,35 +87,41 @@
             </div>
         </div>
     </section>
-<div class="flex justify-between items-center m-2 p-2 w-full">
+<div>
 <section class="font-serif">
 <div class="container">
-    <h1 class="text-xl font-bold font-serif leading-none text-black lg:text-2xl md:text-xl py-2 px-2">Přehled všech rezervací:</h1>
 
-    @if($reservations->isEmpty())
-        <p class="text-sm font-bold font-serif leading-none text-black sm:text-sm md:text-sm py-2 px-2">Žádné rezervace nejsou k dispozici.</p>
-    @else
-        <table class="table table-bordered">
-            <section class="flex items-center justify-center m-2 p-2">
-            <thead>
-                <tr>
-                    <th class="flex items-center justify-center m-2 p-2  w-full h-full">ID uživatele</th>
-                    <th class=" m-2 p-2 ">Datum rezervace</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($reservations as $reservation)
-                <tr>
-                    <td class="flex items-center justify-center m-2 p-2">{{ $reservation->user_id }}</td>
-                    <td class=" m-2 p-2">{{ $reservation->lesson_id }}</td>
-                </tr>
-                </section>
-                @endforeach
-            </tbody>
-        </table>
-    @endif
+
+    <div class="flex items-center justify-center m-2 p-2">
+    <div class="container">
+    <h1 class="text-xl font-bold font-serif leading-none text-black lg:text-2xl md:text-xl py-2 px-2">Přehled všech rezervací:</h1>
+    <h1>Rezervace všech uživatelů</h1>
+<div>
+    <table class="table">
+        <thead>
+            <tr >
+                <th class="border">Název</th>
+                <th class="border">Datum</th>
+                <th class="border">Začáek</th>
+                <th class="border">Konec</th>
+                <th class="border">Kapacita</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($lessons as $lesson)
+            <tr>
+                <td class="border">{{ $lesson->title }}</td>
+                <td class="border">{{ $lesson->date }}</td>
+                <td class="border">{{ $lesson->start_at }}</td>
+                <td class="border">{{ $lesson->end_at }}</td>
+                <td class="border">{{ $lesson->capacity }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
-</section>
+</div>
+
 
 <section class="font-serif">
 <div class="container">
@@ -133,6 +139,7 @@
                     <th class=" m-2 p-2 ">Datum lekce:</th>
                     <th class=" m-2 p-2 ">Začátek lekce:</th>
                     <th class=" m-2 p-2 ">Konec lekce:</th>
+                    <th class=" m-2 p-2 ">Kapacita:</th>
                 </tr>
             </thead>
             <tbody>
@@ -142,45 +149,51 @@
                     <td class=" m-2 p-2">{{ $lesson->date }}</td>
                     <td class=" m-2 p-2">{{ $lesson->start_at }}</td>
                     <td class=" m-2 p-2">{{ $lesson->end_at }}</td>
+                    <td class=" m-2 p-2">{{ $lesson->capacity }}</td>
                 </tr>
                 </section>
                 @endforeach
             </tbody>
         </table>
     @endif
-    <div class="container">
-    <h1>Vytvořit novou lekci</h1>
+    </div>
+</section>
 
-    <form action="{{ route('lessons.store') }}" method="POST">
+
+<section>
+    <div class="container gap-2 m-2 p-2 border rounded-xl">
+    <h1 class="font-serif text-lg m-2 p-2">Vytvořit novou lekci</h1>
+
+    <form action="{{ route('lessons.store') }}" method="POST" >
         @csrf
 
-        <div class="form-group">
+        <div class="form-group rounded-xl m-2 p-2">
             <label for="title">Název lekce:</label>
             <input type="text" name="title" id="title" class="form-control" required>
         </div>
 
-        <div class="form-group">
+        <div class="form-group rounded-xl m-2 p-2">
             <label for="date">Datum lekce:</label>
-            <textarea name="date" id="date" class="form-control"></textarea>
+            <input name="date" id="date" class="form-control" type="date"></textarea>
         </div>
 
-        <div class="form-group">
+        <div class="form-group rounded-xl m-2 p-2">
             <label for="start_at">Čas začátku:</label>
             <input type="time-local" name="start_at" id="start_at" class="form-control" required>
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group rounded-xl m-2 p-2">
             <label for="start_at">Čas konce:</label>
             <input type="time-local" name="end_at" id="end_at" class="form-control" required>
         </div>
 
-        <div class="form-group">
+        <div class="form-group rounded-xl m-2 p-2">
             <label for="capacity">Kapacita:</label>
             <input type="number" name="capacity" id="capacity" class="form-control" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Vytvořit lekci</button>
+        <button type="submit" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium tracking-wide text-white transition-colors duration-200 rounded-md bg-indigo-600 hover:bg-indigo-800 focus:ring-2 focus:ring-offset-2 focus:ring-neutral-900 focus:shadow-outline focus:outline-none">Vytvořit lekci</button>
     </form>
 </div>
 </div>
@@ -216,6 +229,7 @@
 </script>
 
 </section>
+</div>
 </div>
     <section class="text-gray-700 bg-gray-100 body-font mt-auto" {!! $attributes ?? '' !!}>
         <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
