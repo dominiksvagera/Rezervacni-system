@@ -79,60 +79,31 @@
                 <a href="/login" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-gray-600 whitespace-no-wrap bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:shadow-none" data-rounded="rounded-md">
                     Přihlásit se
                 </a>
+                @if(auth()->user()->is_admin)
                 <span class="inline-flex rounded-md shadow-sm">
                     <a href="/rezervace" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-indigo-600 border rounded-md shadow-sm hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" data-rounded="rounded-md" data-primary="blue-600">
-                        Rezervace
+                        Vytvořit novou lekci
                     </a>
                 </span>
+                @endif
             </div>
         </div>
     </section>
 <div>
-<section class="font-serif">
-<div class="container">
 
-
-    <div class="flex items-center justify-center m-2 p-2">
-    <div class="container">
-    <h1 class="text-xl font-bold font-serif leading-none text-black lg:text-2xl md:text-xl py-2 px-2">Přehled všech rezervací:</h1>
-    <h1>Rezervace všech uživatelů</h1>
-<div>
-    <table class="table">
-        <thead>
-            <tr >
-                <th class="border">Název</th>
-                <th class="border">Datum</th>
-                <th class="border">Začáek</th>
-                <th class="border">Konec</th>
-                <th class="border">Kapacita</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($lessons as $lesson)
-            <tr>
-                <td class="border">{{ $lesson->title }}</td>
-                <td class="border">{{ $lesson->date }}</td>
-                <td class="border">{{ $lesson->start_at }}</td>
-                <td class="border">{{ $lesson->end_at }}</td>
-                <td class="border">{{ $lesson->capacity }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-</div>
-
+<div class="flex items-center justify-between m-2 p-2">
 
 <section class="font-serif">
 <div class="container">
     <h1 class="text-xl font-bold font-serif leading-none text-black lg:text-2xl md:text-xl py-2 px-2">Přehled všech lekcí:</h1>
   
+   
 
     @if($lessons->isEmpty())
         <p class="text-2xl font-bold font-serif leading-none text-black sm:text-xl md:text-2xl py-2 px-2">Žádné lekce nejsou vypsány.</p>
     @else
         <table class="table table-bordered">
-            <section class="flex items-center justify-center m-2 p-2">
+            <section >
             <thead>
                 <tr>
                     <th class="flex items-center justify-center m-2 p-2  w-full h-full">Název lekce:</th>
@@ -198,7 +169,7 @@
 </div>
 </div>
 </section>
-
+</div>
 <section>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -231,6 +202,8 @@
 </section>
 </div>
 </div>
+
+
     <section class="text-gray-700 bg-gray-100 body-font mt-auto" {!! $attributes ?? '' !!}>
         <div class="container flex flex-col items-center px-8 py-8 mx-auto max-w-7xl sm:flex-row">
             <a href="/" class="text-xl font-black leading-none text-gray-900 select-none logo">BULL SPORT RAJHRAD<span class="text-indigo-600"></span></a>
