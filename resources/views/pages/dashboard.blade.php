@@ -123,6 +123,7 @@
                                 <button type="submit" class="bg-red-500 rounded-lg px-4 py-2 text-white font-semibold">
                                     SMAZAT
                                 </button>
+                                
                             </form>
 
                         </x-modal>
