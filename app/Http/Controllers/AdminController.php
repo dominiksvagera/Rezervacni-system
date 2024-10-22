@@ -22,7 +22,7 @@ class AdminController extends Controller
         return view('lessons.index', compact('lessons'));
     }
     
-
+// vytvoření lekce
     public function create()
     {
         return view('lessons.create');

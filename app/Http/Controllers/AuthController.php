@@ -15,7 +15,7 @@ class AuthController extends Controller
     {
         return view('pages.login');
     }
-
+// autentifikace uživatele pomocí mailu a hesla
     public function authenticate(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
@@ -33,7 +33,7 @@ class AuthController extends Controller
             'email' => 'Zadané přihlašovací údaje nejsou správné',
         ])->onlyInput('email');
     }
-
+// registrace nového uživatele
     public function store(Request $request)
     {
         $validated = $request->validate(
@@ -55,6 +55,8 @@ class AuthController extends Controller
 
         return redirect('/');
     }
+
+    // odhlášení
     public function logout(Request $request): RedirectResponse
     {
         Auth::logout();

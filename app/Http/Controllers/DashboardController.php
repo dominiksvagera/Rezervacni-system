@@ -9,6 +9,7 @@ use App\Rules\checkCapacity;
 
 class DashboardController extends Controller
 {
+    // napárování rezervací a lekcí do dashboardu
     public function show()
     {
        
@@ -24,7 +25,7 @@ class DashboardController extends Controller
         'end_at' => $lessons,
 ]);
     }
-
+// založní nové lekce na dashboardu i s ohlídáním kapacity 
 public function store(Request $request)
 {
 
@@ -44,7 +45,7 @@ public function store(Request $request)
     return redirect()->route('dashboard');
     
     }
-
+// zrušení rezervace
 public function destroy(Request $request)
 {
     $reservation = Reservation::find($request->id);
@@ -52,7 +53,7 @@ public function destroy(Request $request)
 
     return redirect()->route('dashboard');
 }
-
+// update rezervace
 public function update(Request $request)
 {
     $reservation = Reservation::find($request->id);
@@ -60,7 +61,7 @@ public function update(Request $request)
 
     return redirect()->route('dashboard');
 }
-
+// slouží k výpusu rezervací :
 public function showReservations()
 {
     // Získání všech rezervací z databáze
