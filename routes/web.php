@@ -45,7 +45,7 @@ Route::get('rezervace', [AdminController::class, 'index'])->name('home');
 //  akce dostupné pouze pro přihlášené uživatele
 Route::middleware(['auth'])->group(function () {
     Route::post('/reservations', [AdminController::class, 'store'])->name('reservations.store');
-    Route::delete('/reservations/{date}', [AdminController::class, 'destroy'])->name('reservations.destroy');
+    Route::delete('/reservations/{title}', [AdminController::class, 'destroy'])->name('reservations.destroy');
 });
 
 Route::get('/reservations', [AdminController::class, 'index'])->name('reservations.index');
